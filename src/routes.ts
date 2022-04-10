@@ -16,8 +16,8 @@ const identifyPersonController = new IdentifyPersonController();
 
 routes.post("/group", createGroupController.handle);
 routes.delete("/group", deleteGroupController.handle);
-routes.post("/person", addFaceController.handle);
-routes.post("/person/face", createPersonController.handle);
+routes.post("/person", createPersonController.handle);
+routes.post("/person/face", addFaceController.handle);
 routes.get("/person/identify", identifyPersonController.handle);
 
 export { routes };

@@ -9,8 +9,10 @@
     "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "express-async-errors": "^3.1.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
