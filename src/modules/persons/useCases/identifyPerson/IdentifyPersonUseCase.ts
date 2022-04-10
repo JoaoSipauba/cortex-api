@@ -57,7 +57,7 @@ export class IdentifyPersonUseCase {
             const { personId } = result.data[0].candidates[0];
 
             return personId;
-        } catch (error: any) {
+        } catch (error) {
             throw new Error("Error while matching person");
         }
     }
