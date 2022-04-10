@@ -4,7 +4,10 @@ import { IdentifyPersonUseCase } from "./IdentifyPersonUseCase";
 
 export class IdentifyPersonController {
     async handle(request: Request, response: Response) {
-        const { imgUrl, groupId } = request.body;
+        const { imgUrl, groupId } = request.query as {
+            imgUrl: string;
+            groupId: string;
+        };
 
         const identifyPersonUseCase = new IdentifyPersonUseCase();
         const result = await identifyPersonUseCase.execute({

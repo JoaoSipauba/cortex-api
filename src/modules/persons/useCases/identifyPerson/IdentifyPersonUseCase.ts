@@ -23,7 +23,10 @@ export class IdentifyPersonUseCase {
         const personId = await this.matchesPersonWithFaceId(faceId, groupId);
 
         // Azure should return a list with personal datas
-        const personData = await this.getPersonDataWithPersonId(personId);
+        const personData = await this.getPersonDataWithPersonId(
+            groupId,
+            personId
+        );
 
         return personData;
     }
@@ -51,17 +54,31 @@ export class IdentifyPersonUseCase {
                 faceIds: [faceId],
             });
 
-            const { personId } = result.data.candidates[0];
+            const { personId } = result.data[0].candidates[0];
 
             return personId;
-        } catch (error) {
+        } catch (error: any) {
             throw new Error("Error while matching person");
         }
     }
 
-    private async getPersonDataWithPersonId(personId: string) {
-        const data = "";
+    private async getPersonDataWithPersonId(groupId: string, personid: string) {
+        try {
+            const result = await api.get(
+                `/largepersongroups/${groupId}/persons/${personid}`
+            );
 
-        return data;
+            const { name, userData, persistedFaceIds } = result.data;
+
+            const data = {
+                cpf: name,
+                nome: userData,
+                fotos: persistedFaceIds,
+            };
+
+            return data;
+        } catch (error) {
+            throw new Error("Error getting person data");
+        }
     }
 }
