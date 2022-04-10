@@ -1,3 +1,5 @@
+import api from "../../../../service/azureApi";
+
 interface IIdentifyPerson {
     imgUrl: string;
     groupId: string;
@@ -18,7 +20,7 @@ export class IdentifyPersonUseCase {
         const faceId = await this.sendUrlToAzure(imgUrl);
 
         // Azure should return personId in /identify path
-        const personId = await this.matchesPersonWithFaceId(faceId);
+        const personId = await this.matchesPersonWithFaceId(faceId, groupId);
 
         // Azure should return a list with personal datas
         const personData = await this.getPersonDataWithPersonId(personId);
@@ -27,15 +29,34 @@ export class IdentifyPersonUseCase {
     }
 
     private async sendUrlToAzure(imgUrl: string) {
-        const faceId = "";
+        try {
+            const result = await api.post(`/detect`, {
+                url: imgUrl,
+            });
 
-        return faceId;
+            const { faceId } = result.data[0];
+
+            return faceId;
+        } catch (error) {
+            throw new Error("Error while sending image url to azure");
+        }
     }
 
-    private async matchesPersonWithFaceId(faceId: string) {
-        const personId = "";
+    private async matchesPersonWithFaceId(faceId: string, groupId: string) {
+        try {
+            const result = await api.post(`/identify`, {
+                largePersonGroupId: groupId,
+                maxNumOfCandidatesReturned: 1,
+                confidenceThreshold: 0.5,
+                faceIds: [faceId],
+            });
 
-        return personId;
+            const { personId } = result.data.candidates[0];
+
+            return personId;
+        } catch (error) {
+            throw new Error("Error while matching person");
+        }
     }
 
     private async getPersonDataWithPersonId(personId: string) {
