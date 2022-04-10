@@ -1,0 +1,4 @@
+- Enviar url da imagem do detento ao azure com rota /detect e armazenar faceID 
+- Enviar faceID do detento para o azure comparar na rota /identify e armazenar personId
+- Buscar informações do detento no azure com /persons/{personId}
+- Mostrar informações do detento
