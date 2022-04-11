@@ -88,6 +88,8 @@ export class IdentifyPersonUseCase {
 
             const { name, userData, persistedFaceIds } = result.data;
 
+            console.log(result.data);
+
             const data = {
                 cpf: name,
 

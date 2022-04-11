@@ -27,7 +27,7 @@ export class CreatePersonUseCase {
             const result = await api.post(
                 `/largepersongroups/${groupId}/persons`,
                 {
-                    name,
+                    name: cpf,
                     userData: name,
                 }
             );
