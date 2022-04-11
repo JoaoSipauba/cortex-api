@@ -2,33 +2,41 @@ import api from "../../../../service/azureApi";
 
 interface IIdentifyPerson {
     imgUrl: string;
+
     groupId: string;
 }
+
 export class IdentifyPersonUseCase {
     async execute({ imgUrl, groupId }: IIdentifyPerson) {
         // should have valid image url
+
         if (!imgUrl) {
             throw new Error("imgUrl not found");
         }
 
         // should have groupIdentifier
+
         if (!groupId) {
             throw new Error("groupId not found");
         }
 
         // Azure should return faceId in /detect path
+
         const faceId = await this.sendUrlToAzure(imgUrl);
 
         // Azure should return personId in /identify path
+
         const personId = await this.matchesPersonWithFaceId(faceId, groupId);
 
         // Azure should return a list with personal datas
+
         const personData = await this.getPersonDataWithPersonId(
             groupId,
+
             personId
         );
 
-        return personData;
+        return { ...personData, imageURL: imgUrl };
     }
 
     private async sendUrlToAzure(imgUrl: string) {
@@ -49,8 +57,11 @@ export class IdentifyPersonUseCase {
         try {
             const result = await api.post(`/identify`, {
                 largePersonGroupId: groupId,
+
                 maxNumOfCandidatesReturned: 1,
+
                 confidenceThreshold: 0.5,
+
                 faceIds: [faceId],
             });
 
@@ -62,11 +73,8 @@ export class IdentifyPersonUseCase {
 
             return candidates[0].personId;
         } catch (error: any) {
-            console.log(error.response);
-
-            const errorMessage = error.response.data.error.message
-                ? error.response.data.error.message
-                : error.message;
+            const errorMessage =
+                error.message || error.response.data.error.message;
 
             throw new Error(errorMessage || "Error while matching person");
         }
@@ -82,7 +90,9 @@ export class IdentifyPersonUseCase {
 
             const data = {
                 cpf: name,
+
                 nome: userData,
+
                 fotos: persistedFaceIds,
             };
 
