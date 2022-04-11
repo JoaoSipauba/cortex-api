@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { upload } from "./config/upload";
 import { CreateGroupController } from "./modules/groups/useCases/createGroup/CreateGroupController";
 import { DeleteGroupController } from "./modules/groups/useCases/deleteGroup/DeleteGroupController";
 import { AddFaceController } from "./modules/persons/useCases/addFace/AddFaceController";
@@ -18,6 +19,10 @@ routes.post("/group", createGroupController.handle);
 routes.delete("/group", deleteGroupController.handle);
 routes.post("/person", createPersonController.handle);
 routes.post("/person/face", addFaceController.handle);
-routes.get("/person/identify", identifyPersonController.handle);
+routes.post(
+    "/person/identify",
+    upload.single("file"),
+    identifyPersonController.handle
+);
 
 export { routes };

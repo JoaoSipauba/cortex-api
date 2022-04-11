@@ -54,11 +54,20 @@ export class IdentifyPersonUseCase {
                 faceIds: [faceId],
             });
 
-            const { personId } = result.data[0].candidates[0];
+            const { candidates } = result.data[0];
 
-            return personId;
-        } catch (error) {
-            throw new Error("Error while matching person");
+            if (candidates.length === 0) {
+                throw new Error("We cant find someone in our database");
+            }
+
+            return candidates[0].personId;
+        } catch (error: any) {
+            console.log(error);
+
+            const errorMessage =
+                error.message || error.response.data.error.message;
+
+            throw new Error(errorMessage || "Error while matching person");
         }
     }
 

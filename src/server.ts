@@ -1,6 +1,6 @@
 import "dotenv/config";
-import "express-async-errors";
 import express, { Request, Response } from "express";
+import "express-async-errors";
 
 import { routes } from "./routes";
 
@@ -16,6 +16,8 @@ app.use((err: Error, request: Request, response: Response) => {
             message: err.message,
         });
     }
+
+    console.log(response);
 
     return response.status(500).json({
         status: "error",
