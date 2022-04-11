@@ -53,4 +53,4 @@ npm dev
 - Após a criação do grupo de pessoas, você deve fazer um post na rota /person para criar uma nova pessoa no grupo
 - Agora você deve adicionar uma imagem com um post em /person/face para que a IA reconheça a pessoa
 - Em seguida realize um post /group/train para que a IA faça seu treinamento
-- Agora você deve mandar uma imagem para /identify para que a API faça o reconhecimento e informe se você existe na base
+- Agora você deve mandar uma imagem para /identify para que a API faça o reconhecimento e retorne seus dados caso você exista na base
