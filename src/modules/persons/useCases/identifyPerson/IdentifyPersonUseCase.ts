@@ -62,10 +62,11 @@ export class IdentifyPersonUseCase {
 
             return candidates[0].personId;
         } catch (error: any) {
-            console.log(error);
+            console.log(error.response);
 
-            const errorMessage =
-                error.message || error.response.data.error.message;
+            const errorMessage = error.response.data.error.message
+                ? error.response.data.error.message
+                : error.message;
 
             throw new Error(errorMessage || "Error while matching person");
         }

@@ -9,8 +9,10 @@
     "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts"
   },
   "dependencies": {
+    "@types/cors": "^2.8.12",
     "aws-sdk": "^2.1111.0",
     "axios": "^0.26.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
